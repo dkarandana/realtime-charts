@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
+const spreadsheet = require('./spreadsheet_api');
 
 //configure body-parser for express
 app.use(bodyParser.urlencoded({extended:false}));
@@ -31,3 +32,5 @@ const server = app.listen(3000, function(){
     const port = server.address().port;
     console.log("Example app listening at http://%s:%s", host, port);
 });
+
+console.log( spreadsheet.listMajors );
