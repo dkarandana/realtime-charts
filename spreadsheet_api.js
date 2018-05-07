@@ -79,8 +79,8 @@ function listInstants(auth) {
   
   const sheets = google.sheets({version: 'v4', auth});
   sheets.spreadsheets.values.get({
-    spreadsheetId: '1zmz_FL0rakCGJftprNHpX9Fip7cIPKQJ6F5yaf34wrQ',
-    range: 'Instant!A2:D',
+    spreadsheetId: '___________',
+    range: 'Instant!A2:E',
   }, (err, {data}) => {
     if (err) return console.log('The API returned an error: ' + err);
     const rows = data.values;
@@ -111,8 +111,8 @@ function addInstantRow(auth,values){
   const sheets = google.sheets({version: 'v4', auth});
 
   sheets.spreadsheets.values.append({
-    spreadsheetId: '1zmz_FL0rakCGJftprNHpX9Fip7cIPKQJ6F5yaf34wrQ',
-    range: 'Instant!A2:D',
+    spreadsheetId: '___________',
+    range: 'Instant!A2:E',
     valueInputOption: "USER_ENTERED",
     resource: {
       values: [ values ]
