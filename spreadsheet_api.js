@@ -6,13 +6,6 @@ const OAuth2Client = google.auth.OAuth2;
 const SCOPES = ['https://www.googleapis.com/auth/spreadsheets'];
 const TOKEN_PATH = 'credentials.json';
 
-// Load client secrets from a local file.
-// fs.readFile('client_secret.json', (err, content) => {
-//   if (err) return console.log('Error loading client secret file:', err);
-//   // Authorize a client with credentials, then call the Google Sheets API.
-//   authorize(JSON.parse(content), listInstants);
-// });
-
 var secret_json = fs.readFileSync('client_secret.json');
     
 secret_json = JSON.parse(secret_json);
@@ -71,16 +64,14 @@ function getNewToken(oAuth2Client, callback) {
  * @see https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
  * @param {OAuth2Client} auth The authenticated Google OAuth client.
  */
-
-
  
 function listInstants(auth) {
 
   
   const sheets = google.sheets({version: 'v4', auth});
   sheets.spreadsheets.values.get({
-    spreadsheetId: '1zmz_FL0rakCGJftprNHpX9Fip7cIPKQJ6F5yaf34wrQ',
-    range: 'Instant!A2:D',
+    spreadsheetId: '___________',
+    range: 'Instant!A2:E',
   }, (err, {data}) => {
     if (err) return console.log('The API returned an error: ' + err);
     const rows = data.values;
@@ -89,8 +80,7 @@ function listInstants(auth) {
       
       // Print columns A and D, which correspond to indices 0 and 3.
       rows.map((row) => {
-        //console.log(`${row[0]}, ${row[4]}`);
-        //time_stamp	voltage	current	fuel_volume
+  
         console.log(`
           time_stamp : ${row[0]}
           voltage : ${row[1]}
@@ -111,8 +101,8 @@ function addInstantRow(auth,values){
   const sheets = google.sheets({version: 'v4', auth});
 
   sheets.spreadsheets.values.append({
-    spreadsheetId: '1zmz_FL0rakCGJftprNHpX9Fip7cIPKQJ6F5yaf34wrQ',
-    range: 'Instant!A2:D',
+    spreadsheetId: '___________',
+    range: 'Instant!A2:E',
     valueInputOption: "USER_ENTERED",
     resource: {
       values: [ values ]
@@ -125,8 +115,7 @@ function addInstantRow(auth,values){
       
       // Print columns A and D, which correspond to indices 0 and 3.
       rows.map((row) => {
-        //console.log(`${row[0]}, ${row[4]}`);
-        //time_stamp	voltage	current	fuel_volume
+   
         console.log(`
           time_stamp : ${row[0]}
           voltage : ${row[1]}
@@ -147,7 +136,7 @@ function list(){
 }
 
 function write(data){
-  console.log('write');
+
   authorize(secret_json, addInstantRow,data );
 }
 
