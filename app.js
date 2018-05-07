@@ -1,54 +1,33 @@
-console.log("App js listening..");
+const express = require('express');
+const bodyParser = require('body-parser');
+const app = express();
 
-// const http = require('http');
-// const url = require('url');
+//configure body-parser for express
+app.use(bodyParser.urlencoded({extended:false}));
+app.use(bodyParser.json());
 
-// const server = http.createServer();
-
-
-
-
-var http = require('http'),
-    qs = require('querystring');
-
-var server = http.createServer(function(req, res) {
-  if (req.method === 'POST' && req.url === '/login') {
-    var body = '';
-    req.on('data', function(chunk) {
-      body += chunk;
-    });
-    req.on('end', function() {
-      var data = qs.parse(body);
-      // now you can access `data.email` and `data.password`
-
-      console.log( data);
-      res.writeHead(200);
-      res.end(JSON.stringify(data));
-    });
-  } else {
-    res.writeHead(404);
-    res.end();
-  }
+//allow express to access html (index.html) file
+app.get('/index.html', function(req, res) {
+    res.sendFile(__dirname + "/" + "index.html");
 });
 
-server.listen(3000);
+//route the GET request to the specified path, "/user". 
+//This sends the user information to the path  
+app.post('/api/instant-values', function(req, res){
+    response =  req.body;
 
-// server.on('request',(req, res) => {
+    console.log(response);
+    
+    //convert the response in JSON format
+    res.end(JSON.stringify(response));
+});
 
-//   console.log("Method", req.method);
-
-//   res.writeHead(200);
-
-//   //req.setEncoding('utf8');
-
-//   req.on('data', function(chunk) {
-//       console.log(JSON.stringify(chunk) );
-//   });
-
-//   res.write('Data');
-
-//   res.end();
-
-// });
-
-// server.listen(3000);
+//This piece of code creates the server  
+//and listens to the request at port 8888
+//we are also generating a message once the 
+//server is created
+const server = app.listen(3000, function(){
+    const host = server.address().address;
+    const port = server.address().port;
+    console.log("Example app listening at http://%s:%s", host, port);
+});
