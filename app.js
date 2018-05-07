@@ -8,7 +8,7 @@ app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
 
 //allow express to access html (index.html) file
-app.get('/index.html', function(req, res) {
+app.get('/', function(req, res) {
     res.sendFile(__dirname + "/" + "index.html");
 });
 
@@ -17,10 +17,14 @@ app.get('/index.html', function(req, res) {
 app.post('/api/instant-values', function(req, res){
     response =  req.body;
 
-    console.log(response);
-    
+    let jsonValues = JSON.stringify(response);
+    let arrValues = [ new Date(),response.voltage,response.current,response.fuel_volume];
+
+//voltage	current	fuel_volume
+    spreadsheet.addInstantRow( arrValues );
+   
     //convert the response in JSON format
-    res.end(JSON.stringify(response));
+    res.end(jsonValues);
 });
 
 //This piece of code creates the server  
@@ -33,4 +37,6 @@ const server = app.listen(3000, function(){
     console.log("Example app listening at http://%s:%s", host, port);
 });
 
-console.log( spreadsheet.listMajors );
+//console.log( spreadsheet.listInstants() );
+console.log( spreadsheet.addInstantRow() );
+//console.log( spreadsheet.addInstantRow );
